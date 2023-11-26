@@ -13,15 +13,13 @@ public class TokenizeTest {
     @Test
     public void testTokenization() {
 
-        RemixLexer lexer = new RemixLexer();
-
         String testProgram = "#define project Lcom/ryanhcode/landlord/Landlord;projectIfNeccesary(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;\n" +
             "\n" +
             "WirelessNetwork in[cock] distanceToEntitySADG[Entity instance] {\n" +
             "  transform_vector[e.entityLevel, e.entityPosition]\n" +
             "}";
 
-        List<RemixLexer.Token> tokens = lexer.lex(testProgram);
+        List<RemixLexer.Token> tokens = RemixLexer.lex(testProgram);
 
         for (RemixLexer.Token token : tokens) {
             System.out.println(token);

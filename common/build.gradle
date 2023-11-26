@@ -12,7 +12,7 @@ test {
 }
 
 architectury {
-    common()
+    common("fabric", "forge")
 }
 
 publishing {

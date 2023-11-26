@@ -63,7 +63,7 @@ public class RemixLexer {
         }
     }
 
-    public List<Token> lex(String input) {
+    public static List<Token> lex(String input) {
         List<Token> tokens = new ArrayList<>();
         int line = 1;
         int index = 0;
