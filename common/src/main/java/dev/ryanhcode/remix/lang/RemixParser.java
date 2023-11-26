@@ -6,13 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.CLOSE_ENTRY;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.IDENTIFIER;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.IN;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.LEFT_PAREN;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.NIL;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.OPEN_ENTRY;
-import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.RIGHT_PAREN;
+import static dev.ryanhcode.remix.lang.RemixLexer.TokenType.*;
 
 /**
  * Parses a lexed token list into a collection of remix entries.
@@ -73,11 +67,42 @@ public class RemixParser {
         consume(OPEN_ENTRY);
 
         // consume params
-        List<String> params = new ArrayList<>();
+        List<RemixParam> params = new ArrayList<>();
+
+        while (peek().type != CLOSE_ENTRY) {
+            String name = consume(IDENTIFIER).contents;
+
+            consume(EQUALS);
+
+            RemixParam.ParamType type = RemixParam.ParamType.PARAM;
+
+            if(peek().type == PARAM) {
+                consume(PARAM);
+            } else if (peek().type == LOCAL) {
+                consume(LOCAL);
+                type = RemixParam.ParamType.LOCAL;
+            } else if (peek().type == RESULT) {
+                consume(RESULT);
+                type = RemixParam.ParamType.RESULT;
+            } else if (peek().type == IDENTIFIER && peek().contents.equals("this.")) {
+                consume(IDENTIFIER);
+                consume(DOT);
+                type = RemixParam.ParamType.FIELD;
+            }
+
+            if (type == RemixParam.ParamType.RESULT) {
+                params.add(new RemixParam(type, 0));
+            } else {
+                consume(LEFT_PAREN);
+                int index = Integer.parseInt(consume(IDENTIFIER).contents);
+                consume(RIGHT_PAREN);
+                params.add(new RemixParam(type, index));
+            }
+        }
 
         consume(CLOSE_ENTRY);
 
-        return new RemixEntry(classTarget, methodTarget, invokeTarget, "");
+        return new RemixEntry(classTarget, methodTarget, invokeTarget, remixFunction, params);
     }
 
     private String checkDefinitions(String contents) {

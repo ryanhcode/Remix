@@ -16,10 +16,14 @@ public class RemixLexer {
         // KEYWORDS
         DEFINE("\\#define"),
         IN("in"),
+        LOCAL("local"),
+        PARAM("param"),
+        RESULT("result"),
 
 
         // EVERYTHING ELSE
-        IDENTIFIER ("[a-zA-Z_][a-zA-Z0-9_\\/;()]*"),
+        IDENTIFIER ("[a-zA-Z_0-9][a-zA-Z0-9_\\/;()\\.]*"),
+        EQUALS("\\="),
         LEFT_PAREN("\\["),
         RIGHT_PAREN("\\]"),
         OPEN_TYPE("\\<"),
@@ -63,7 +67,7 @@ public class RemixLexer {
         }
     }
 
-    public List<Token> lex(String input) {
+    public static List<Token> lex(String input) {
         List<Token> tokens = new ArrayList<>();
         int line = 1;
         int index = 0;
