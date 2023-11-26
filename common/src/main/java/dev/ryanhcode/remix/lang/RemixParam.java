@@ -20,7 +20,8 @@ public class RemixParam {
     public static enum ParamType {
         LOCAL,
         PARAM,
-        FIELD;
+        FIELD,
+        RESULT;
     }
 
 }

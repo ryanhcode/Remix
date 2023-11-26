@@ -16,10 +16,14 @@ public class RemixLexer {
         // KEYWORDS
         DEFINE("\\#define"),
         IN("in"),
+        LOCAL("local"),
+        PARAM("param"),
+        RESULT("result"),
 
 
         // EVERYTHING ELSE
-        IDENTIFIER ("[a-zA-Z_][a-zA-Z0-9_\\/;()]*"),
+        IDENTIFIER ("[a-zA-Z_0-9][a-zA-Z0-9_\\/;()\\.]*"),
+        EQUALS("\\="),
         LEFT_PAREN("\\["),
         RIGHT_PAREN("\\]"),
         OPEN_TYPE("\\<"),

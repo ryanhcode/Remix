@@ -11,12 +11,19 @@ import java.util.List;
 public class TokenizeTest {
 
     @Test
-    public void testTokenization() {
+    public void testTokenization() throws Exception {
 
-        String testProgram = "#define project Lcom/ryanhcode/landlord/Landlord;projectIfNeccesary(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/phys/Vec3;\n" +
+        String testProgram = "#define Level net.minecraft.world.Level\n" +
+            "#define Entity net.minecraft.world.entity.Entity\n" +
+            "#define BeltBlock com.simibubi.create.content.kinetics.belt.BeltBlock\n" +
+            "#define updateEntityAfterFallOn Lcom/simibubi/create/content/kinetics/belt/BeltBlock;updateEntityAfterFallOn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;)V\n" +
+            "#define blockPosition Lnet/minecraft/world/entity/Entity;blockPosition()Lnet/minecraft/core/BlockPos;\n" +
             "\n" +
-            "WirelessNetwork in[cock] distanceToEntitySADG[Entity instance] {\n" +
-            "  transform_vector[e.entityLevel, e.entityPosition]\n" +
+            "BeltBlock in[updateEntityAfterFallOn] blockPosition project_position {\n" +
+            "  level = param[0] \n" +
+            "\n" +
+            "\n" +
+            "  position = result\n" +
             "}";
 
         List<RemixLexer.Token> tokens = RemixLexer.lex(testProgram);
